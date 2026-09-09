@@ -1,6 +1,7 @@
 package com.finza.user.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
+@Getter
 public class User {
 
     @Id
