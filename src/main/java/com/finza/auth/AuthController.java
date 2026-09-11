@@ -1,10 +1,9 @@
-package com.finza.auth.controller;
+package com.finza.auth;
 
 import com.finza.auth.dto.*;
 import com.finza.auth.service.AuthService;
 import com.finza.auth.service.JwtService;
 import com.finza.auth.service.RefreshTokenService;
-import com.finza.auth.entity.RefreshToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
