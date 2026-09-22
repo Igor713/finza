@@ -16,9 +16,14 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final JwtService jwtService;
+    private final CustomJwtAuthenticationConverter authenticationConverter;
 
-    public SecurityConfig(JwtService jwtService) {
+    public SecurityConfig(
+            JwtService jwtService,
+            CustomJwtAuthenticationConverter authenticationConverter
+    ) {
         this.jwtService = jwtService;
+        this.authenticationConverter = authenticationConverter;
     }
 
     @Bean
@@ -57,7 +62,9 @@ public class SecurityConfig {
                 )
 
                 .oauth2ResourceServer(oauth2 ->
-                        oauth2.jwt(jwt -> {})
+                        oauth2.jwt(jwt ->
+                                jwt.jwtAuthenticationConverter(authenticationConverter)
+                        )
                 );
 
         return http.build();

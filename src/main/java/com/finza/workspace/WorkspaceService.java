@@ -1,37 +1,28 @@
 package com.finza.workspace;
 
-import com.finza.user.UserRepository;
 import com.finza.user.dto.UserResponse;
 import com.finza.user.entity.User;
 import com.finza.workspace.dto.WorkspaceRequest;
 import com.finza.workspace.dto.WorkspaceResponse;
 import com.finza.workspace.entity.Workspace;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 public class WorkspaceService {
     private final WorkspaceRepository workspaceRepository;
-    private final UserRepository userRepository;
 
-    public WorkspaceService(WorkspaceRepository workspaceRepository, UserRepository userRepository) {
-
+    public WorkspaceService(WorkspaceRepository workspaceRepository) {
         this.workspaceRepository = workspaceRepository;
-        this.userRepository = userRepository;
     }
 
-    public WorkspaceResponse create(WorkspaceRequest request, UUID userId) {
+    public WorkspaceResponse create(WorkspaceRequest request, User user) {
         Workspace workspace = new Workspace();
-        System.out.print("userId ====> " + userId);
-
-        User user = userRepository.findById(userId)
-                .orElseThrow();
 
         workspace.setCreatedBy(user);
 
         workspace.setName(request.name());
-        workspace.setCreatedBy(user);
 
         Workspace savedWorkspace = workspaceRepository.save(workspace);
 
@@ -43,5 +34,18 @@ public class WorkspaceService {
                         user.getEmail()
                 )
         );
+    }
+
+    public Page<WorkspaceResponse> findAll(Pageable pageable) {
+        return workspaceRepository
+                .findAll(pageable)
+                .map(workspace -> new WorkspaceResponse(
+                        workspace.getName(),
+                        new UserResponse(
+                                workspace.getCreatedBy().getId(),
+                                workspace.getCreatedBy().getName(),
+                                workspace.getCreatedBy().getEmail()
+                        )
+                ));
     }
 }

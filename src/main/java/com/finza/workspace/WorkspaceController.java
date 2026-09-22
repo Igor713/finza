@@ -1,12 +1,12 @@
 package com.finza.workspace;
 
+import com.finza.config.CurrentUser;
+import com.finza.user.entity.User;
 import com.finza.workspace.dto.WorkspaceRequest;
 import com.finza.workspace.dto.WorkspaceResponse;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/workspace")
@@ -21,16 +21,13 @@ public class WorkspaceController {
     @PostMapping
     public WorkspaceResponse create(
             @RequestBody WorkspaceRequest request,
-            @AuthenticationPrincipal Jwt jwt) {
+            @CurrentUser User user) {
+        System.out.println("====>" + user.getName());
+        return workspaceService.create(request, user);
+    }
 
-        String subject = jwt.getSubject();
-
-        if (subject == null) {
-            throw new IllegalStateException("JWT subject is missing");
-        }
-
-        UUID userId = UUID.fromString(subject);
-
-        return workspaceService.create(request, userId);
+    @GetMapping
+    public Page<WorkspaceResponse> findAll(Pageable pageable) {
+        return workspaceService.findAll(pageable);
     }
 }
