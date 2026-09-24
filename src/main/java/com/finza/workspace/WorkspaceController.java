@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/workspace")
 public class WorkspaceController {
@@ -22,12 +24,25 @@ public class WorkspaceController {
     public WorkspaceResponse create(
             @RequestBody WorkspaceRequest request,
             @CurrentUser User user) {
-        System.out.println("====>" + user.getName());
         return workspaceService.create(request, user);
     }
 
+    @PatchMapping("/{id}")
+    public WorkspaceResponse update(
+            @PathVariable UUID id,
+            @RequestBody WorkspaceRequest request,
+            @CurrentUser User user
+    ) {
+        return workspaceService.update(id, request, user);
+    }
+
     @GetMapping
-    public Page<WorkspaceResponse> findAll(Pageable pageable) {
-        return workspaceService.findAll(pageable);
+    public Page<WorkspaceResponse> findAll(@CurrentUser User user, Pageable pageable) {
+        return workspaceService.findAll(pageable, user);
+    }
+
+    @DeleteMapping("/{id}")
+    public WorkspaceResponse delete(@PathVariable UUID id, @CurrentUser User user) {
+        return workspaceService.delete(id, user);
     }
 }
