@@ -42,7 +42,7 @@ public class WorkspaceController {
     }
 
     @DeleteMapping("/{id}")
-    public WorkspaceResponse delete(@PathVariable UUID id, @CurrentUser User user) {
-        return workspaceService.delete(id, user);
+    public void delete(@PathVariable UUID id, @CurrentUser User user) {
+        workspaceService.delete(id, user);
     }
 }
