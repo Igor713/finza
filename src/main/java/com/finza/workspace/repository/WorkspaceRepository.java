@@ -1,4 +1,4 @@
-package com.finza.workspace;
+package com.finza.workspace.repository;
 
 import com.finza.workspace.entity.Workspace;
 import org.springframework.data.domain.Page;

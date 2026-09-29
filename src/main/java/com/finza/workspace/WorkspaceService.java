@@ -5,6 +5,7 @@ import com.finza.user.entity.User;
 import com.finza.workspace.dto.WorkspaceRequest;
 import com.finza.workspace.dto.WorkspaceResponse;
 import com.finza.workspace.entity.Workspace;
+import com.finza.workspace.repository.WorkspaceRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
