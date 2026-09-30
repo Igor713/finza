@@ -1,4 +1,4 @@
-package com.finza.workspace;
+package com.finza.workspace.serivce;
 
 import com.finza.user.dto.UserResponse;
 import com.finza.user.entity.User;

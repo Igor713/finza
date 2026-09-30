@@ -1,14 +1,13 @@
 package com.finza.workspace.repository;
 
-import com.finza.workspace.entity.Workspace;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.finza.workspace.entity.WorkspaceInvitation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface WorkspaceInvitationRepository extends JpaRepository<Workspace, UUID> {
-    Page<Workspace> findByCreatedById(UUID userId, Pageable pageable);
+public interface WorkspaceInvitationRepository extends JpaRepository<WorkspaceInvitation, UUID> {
+    Optional<WorkspaceInvitation> findByTokenHash(String tokenHash);
 }
